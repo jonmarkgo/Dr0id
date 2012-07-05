@@ -19,7 +19,7 @@
     "hubot-scripts": ">=2.0.8",
     "optparse": "1.0.3",
     "hubot-irc": "0.0.8",
-    "apricot": "0.0.6"
+    "apricot": "git://github.com/saidinesh5/Apricot.git"
   },
 
   "engines": {
