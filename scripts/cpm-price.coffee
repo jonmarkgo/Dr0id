@@ -13,10 +13,10 @@
 # Author:
 #   jonmarkgo
 
-htmlparser = require "apricot"
+apricot = require "apricot"
 
 module.exports = (robot) ->
   robot.respond /(price )(.*)/i, (msg) ->
-    Apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
-      doc.find 'table > tbody > tr > td > table > tbody > tr > td > span'
+    apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
+      doc.find 'span'
       console.log doc.toHTML
