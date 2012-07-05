@@ -17,6 +17,7 @@ htmlparser = require "apricot"
 
 module.exports = (robot) ->
   robot.respond /(price)(.*)/i, (msg) ->
+    console.log(msg.match[1]);
     Apricot.open('http://db.centrepointstation.com/search.php?keywords=' + encodeURIComponent(msg.match[1]), function(err, doc) {
       doc.find('table > tbody > tr > td > table > tbody > tr > td > span');
       msg.send "html: #{doc.toHTML}"
