@@ -17,7 +17,7 @@ htmlparser = require "apricot"
 
 module.exports = (robot) ->
   robot.respond /(price)(.*)/i, (msg) ->
-    console.log msg.match[1]
-    Apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[1]), (err, doc) ->
+    console.log msg.match[2]
+    Apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
       doc.find 'table > tbody > tr > td > table > tbody > tr > td > span'
       msg.send "html: #{doc.toHTML}"
