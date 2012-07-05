@@ -18,6 +18,6 @@ Apricot = require('apricot').Apricot;
 module.exports = (robot) ->
   robot.respond /(price )(.*)/i, (msg) ->
     Apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
-      doc.find 'td#main_content table tbody'
+      doc.find "td#main_content table tbody tr td table"
       doc.each (el) ->
-        msg.send el.innerHTML
+        msg.send "html: #{el}"
