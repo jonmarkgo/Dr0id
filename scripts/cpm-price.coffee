@@ -13,7 +13,7 @@
 # Author:
 #   jonmarkgo
 
-require "apricot"
+Apricot = require('apricot').Apricot;
 
 module.exports = (robot) ->
   robot.respond /(price )(.*)/i, (msg) ->
