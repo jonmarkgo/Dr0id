@@ -13,10 +13,10 @@
 # Author:
 #   jonmarkgo
 
-apricot = require "apricot"
+require "apricot"
 
 module.exports = (robot) ->
   robot.respond /(price )(.*)/i, (msg) ->
-    apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
+    Apricot.open 'http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]), (err, doc) ->
       doc.find 'span'
       console.log doc.toHTML
