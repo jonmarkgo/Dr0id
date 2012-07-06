@@ -14,8 +14,6 @@
 #   jonmarkgo
 
 Bitly = require('bitly')
-cpm_url = ""
-rules_url = ""
 
 module.exports = (robot) ->
   bitly = new Bitly process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY
@@ -46,14 +44,14 @@ module.exports = (robot) ->
           regex = /(\d+)(\d{3})/
           avg = avg.replace(regex, '$1' + ',' + '$2') while (regex.test(avg))
           last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
-          cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
-          rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
-          bitly.shorten cpm_url, (err, bresponse) ->
+          @cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
+          @rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
+          bitly.shorten @cpm_url, (err, bresponse) ->
             if !err
-              cpm_url = bresponse.data.url
-          bitly.shorten rules_url, (err, bresponse) ->
+              @cpm_url = bresponse.data.url
+          bitly.shorten @rules_url, (err, bresponse) ->
             if !err
-              rules_url = bresponse.data.url
-          msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
+              @rules_url = bresponse.data.url
+          msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{@cpm_url} | Stats: #{@rules_url}"
         else
           msg.send "No such entity found!"
