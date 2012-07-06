@@ -16,6 +16,7 @@
 Bitly = require('bitly')
 
 module.exports = (robot) ->
+  bitly = new Bitly process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY
   robot.respond /(price) (.*)/i, (msg) ->
    keywords = msg.match[2]
    msg.http("http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json")
@@ -30,7 +31,6 @@ module.exports = (robot) ->
         options = options.replace(/(^\s*,)|(,\s*$)/g, '');
       	msg.send "Did You Mean: " + options + "?"
       else if response[0]
-        bitly = new Bitly(process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY)
         avg = response[0]["avg"].toString()
         last = response[0]["last"].toString()
         regex = /(\d+)(\d{3})/
@@ -38,6 +38,7 @@ module.exports = (robot) ->
         last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
         cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
         rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
+        msg.send "processing..."
         bitly.shorten cpm_url, (err, bresponse) ->
           console.log(bresponse.data.url);
           console.log(err);
