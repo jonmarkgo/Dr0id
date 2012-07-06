@@ -25,8 +25,8 @@ module.exports = (robot) ->
           options = options + el["name"] + ", "
       	msg.send "Did You Mean: " + options
       else if response[0]
-        avg = response[0]["avg"]
-        last = response[0]["last"]
+        avg = response[0]["avg"].toString()
+        last = response[0]["last"].toString()
         regex = /(\d+)(\d{3})/
         avg = avg.replace(regex, '$1' + ',' + '$2') while (regex.test(avg))
         last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
