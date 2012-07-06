@@ -25,6 +25,6 @@ module.exports = (robot) ->
           options = options + el["name"] + ", "
       	msg.send "Did You Mean: " + options
       else if response[0]
-       msg.send response[0]["name"] + " average price= " + response[0]["avg"] + " - listings: http://market.centrepointstation.com/browse.php?type="+response[0]["type"]+"&class="+response[0]["class"]+"&id="+response[0]["id"] + " - rules: http://www.swcombine.com/rules/?"+response[0]["className"] + "&ID="+response[0]["id"]
+       msg.send response[0]["name"] + " average price= " + response[0]["avg"] + " - listings: http://market.centrepointstation.com/browse.php?type="+response[0]["type"]+"&class="+response[0]["class"]+"&id="+response[0]["id"]
       else
        msg.send "Error"
