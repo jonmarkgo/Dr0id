@@ -13,8 +13,7 @@
 # Author:
 #   jonmarkgo
 
-var Bitly = require('bitly');
-var bitly = new Bitly(process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY);
+Bitly = require('bitly')
 
 module.exports = (robot) ->
   robot.respond /(price) (.*)/i, (msg) ->
@@ -31,6 +30,7 @@ module.exports = (robot) ->
         options = options.replace(/(^\s*,)|(,\s*$)/g, '');
       	msg.send "Did You Mean: " + options + "?"
       else if response[0]
+        bitly = new Bitly(process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY)
         avg = response[0]["avg"].toString()
         last = response[0]["last"].toString()
         regex = /(\d+)(\d{3})/
