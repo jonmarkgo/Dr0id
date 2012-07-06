@@ -19,18 +19,42 @@ module.exports = (robot) ->
    msg.http("http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json")
     .get() (err, res, body) ->
       response = JSON.parse body
-      if response.length > 1
+      if err
+        msg.send "ERROR"
+      else if response.length > 1
       	options = "";
       	response.forEach (el) ->
           options = options + el["name"] + ", "
         options = options.replace(/(^\s*,)|(,\s*$)/g, '');
-      	msg.send "Did You Mean: " + options
+      	msg.send "Did You Mean: " + options + "?"
       else if response[0]
         avg = response[0]["avg"].toString()
         last = response[0]["last"].toString()
         regex = /(\d+)(\d{3})/
         avg = avg.replace(regex, '$1' + ',' + '$2') while (regex.test(avg))
         last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
-        msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]} | Stats: http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
+        cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
+        rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
+        msg
+          .http("http://api.bitly.com/v3/shorten")
+          .query
+            login: process.env.HUBOT_BITLY_USERNAME
+            apiKey: process.env.HUBOT_BITLY_API_KEY
+            longUrl: cpm_url
+            format: "json"
+          .get() (err, res, body) ->
+            bresponse = JSON.parse body
+            if bresponse.status_code is 200 then cpm_url = bresponse.data.url
+        msg
+          .http("http://api.bitly.com/v3/shorten")
+          .query
+            login: process.env.HUBOT_BITLY_USERNAME
+            apiKey: process.env.HUBOT_BITLY_API_KEY
+            longUrl: rules_url
+            format: "json"
+          .get() (err, res, body) ->
+            bresponse2 = JSON.parse body
+            if bresponse2.status_code is 200 then rules_url = bresponse2.data.url
+        msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
       else
         msg.send "No such entity found!"
