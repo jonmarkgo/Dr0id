@@ -39,6 +39,8 @@ module.exports = (robot) ->
         cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
         rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
         bitly.shorten cpm_url, (err, bresponse) ->
+          console.log(bresponse.data.url);
+          console.log(err);
           if (bresponse.data.url) cpm_url = bresponse.data.url
         bitly.shorten rules_url, (err, bresponse) ->
           if (bresponse.data.url) rules_url = bresponse.data.url
