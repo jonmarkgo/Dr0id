@@ -46,11 +46,13 @@ module.exports = (robot) ->
           last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
           cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
           rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
-          msg.send "processing..."
           bitly.shorten cpm_url, (err, bresponse) ->
-            cpm_url = bresponse.data.url
+            if !err
+              console.log bresponse.data.url
+              cpm_url = bresponse.data.url
           bitly.shorten rules_url, (err, bresponse) ->
-            rules_url = bresponse.data.url
+            if !err
+              rules_url = bresponse.data.url
           msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
         else
           msg.send "No such entity found!"
