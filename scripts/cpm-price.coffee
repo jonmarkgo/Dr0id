@@ -25,11 +25,11 @@ module.exports = (robot) ->
       if err
         msg.send "ERROR"
       else if response.length > 1
-      	options = "";
-      	response.forEach (el) ->
+        options = "";
+        response.forEach (el) ->
           options = options + el["name"] + ", "
         options = options.replace(/(^\s*,)|(,\s*$)/g, '');
-      	msg.send "Did You Mean: " + options + "?"
+        msg.send "Did You Mean: " + options + "?"
       else if response[0]
         avg = response[0]["avg"].toString()
         last = response[0]["last"].toString()
