@@ -19,8 +19,12 @@ module.exports = (robot) ->
   bitly = new Bitly process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY
   robot.respond /(price) (.*)/i, (msg) ->
     keywords = msg.match[2]
-    msg.http("http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json")
+    search_url = "http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json"
+    console.log search_url
+    msg.http(search_url)
       .get() (err, res, body) ->
+        console.log body
+        console.log err
         response = JSON.parse body
         if err
           msg.send "ERROR"
