@@ -51,7 +51,7 @@ module.exports = (robot) ->
               cpm_url = bresponse.data.url
             bitly.shorten rules_url, (err2, bresponse2) ->
               if !err2
-                rules_url = bresponse.data.url
+                rules_url = bresponse2.data.url
               msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
           
         else
