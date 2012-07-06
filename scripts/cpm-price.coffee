@@ -1,36 +1,25 @@
 # Description:
-#   gets prices...
+#   CPM Price Grabber
 #
 # Dependencies:
-#   "htmlparser": "1.7.6"
-#   "soupselect": "0.2.0"
-#   "jsdom": "0.2.14"
-#
-#
-# Commands:
 #   None
 #
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot price <ship> - gets price of a ship off CPM database
+#
 # Author:
-#   JonMarkGo
-
-Select     = require("soupselect").select
-HtmlParser = require "htmlparser"
-JSDom      = require "jsdom"
-
-# Decode HTML entities
-unEntity = (str) ->
-    e = JSDom.jsdom().createElement("div")
-    e.innerHTML = str
-    if e.childNodes.length == 0 then "" else e.childNodes[0].nodeValue
+#   jonmarkgo
 
 module.exports = (robot) ->
   robot.respond /(price )(.*)/i, (msg) ->
-    msg
-      .http('http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]))
-      .get() (err, res, body) ->
-        handler = new HtmlParser.DefaultHandler()
-        parser  = new HtmlParser.Parser handler
-        parser.parseComplete body
-        results = (Select handler.dom, 'td#main_content table tbody tr td table')
-          .forEach (el) ->
-            console.log(el)
+   keywords = msg.match[2]
+   msg.http("http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json")
+    .get() (err, res, body) ->
+      response = JSON.parse body
+      if response[0]
+       msg.send response[0]["name"] + ' average price= ' + response[0]["avg"]
+      else
+       msg.send "Error"
