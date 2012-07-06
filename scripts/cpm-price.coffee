@@ -23,6 +23,7 @@ module.exports = (robot) ->
       	options = "";
       	response.forEach (el) ->
           options = options + el["name"] + ", "
+        options = options.replace(/(^\s*,)|(,\s*$)/g, '');
       	msg.send "Did You Mean: " + options
       else if response[0]
         avg = response[0]["avg"].toString()
@@ -32,4 +33,4 @@ module.exports = (robot) ->
         last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
         msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]} | Stats: http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
       else
-        msg.send "Error"
+        msg.send "No such entity found!"
