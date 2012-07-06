@@ -32,5 +32,5 @@ module.exports = (robot) ->
         parser  = new HtmlParser.Parser handler
         parser.parseComplete body
         results = (Select handler.dom, 'td#main_content table tbody tr td table')
-          .forEach el ->
+          .forEach (el) ->
             console.log(el)
