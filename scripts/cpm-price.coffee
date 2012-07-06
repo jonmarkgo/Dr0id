@@ -13,6 +13,9 @@
 # Author:
 #   jonmarkgo
 
+var Bitly = require('bitly');
+var bitly = new Bitly(process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY);
+
 module.exports = (robot) ->
   robot.respond /(price) (.*)/i, (msg) ->
    keywords = msg.match[2]
@@ -35,26 +38,10 @@ module.exports = (robot) ->
         last = last.replace(regex, '$1' + ',' + '$2') while (regex.test(last)) 
         cpm_url = "http://market.centrepointstation.com/browse.php?type=#{response[0]["type"]}&id=#{response[0]["id"]}"
         rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
-        msg
-          .http("http://api.bitly.com/v3/shorten")
-          .query
-            login: process.env.HUBOT_BITLY_USERNAME
-            apiKey: process.env.HUBOT_BITLY_API_KEY
-            longUrl: cpm_url
-            format: "json"
-          .get() (err, res, body) ->
-            bresponse = JSON.parse body
-            if bresponse.status_code is 200 then cpm_url = bresponse.data.url
-        msg
-          .http("http://api.bitly.com/v3/shorten")
-          .query
-            login: process.env.HUBOT_BITLY_USERNAME
-            apiKey: process.env.HUBOT_BITLY_API_KEY
-            longUrl: rules_url
-            format: "json"
-          .get() (err, res, body) ->
-            bresponse2 = JSON.parse body
-            if bresponse2.status_code is 200 then rules_url = bresponse2.data.url
+        bitly.shorten cpm_url, (err, bresponse) ->
+          if (bresponse.data.url) cpm_url = bresponse.data.url
+        bitly.shorten rules_url, (err, bresponse) ->
+          if (bresponse.data.url) rules_url = bresponse.data.url
         msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
       else
         msg.send "No such entity found!"
