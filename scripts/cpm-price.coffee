@@ -1,5 +1,5 @@
 # Description:
-#   Webutility returns title of urls
+#   gets prices...
 #
 # Dependencies:
 #   "htmlparser": "1.7.6"
@@ -11,7 +11,7 @@
 #   None
 #
 # Author:
-#   KevinTraver
+#   JonMarkGo
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
@@ -28,11 +28,8 @@ module.exports = (robot) ->
     msg
       .http('http://db.centrepointstation.com/search.php?keywords=' + escape(msg.match[2]))
       .get() (err, res, body) ->
-        if res.statusCode is 301 or res.statusCode is 302
-          httpResponse(res.headers.location)
-        else if res.statusCode is 200
-          handler = new HtmlParser.DefaultHandler()
-          parser  = new HtmlParser.Parser handler
-          parser.parseComplete body
-          results = (Select handler.dom, 'td#main_content table tbody tr td table')
-          console.log(results[0])
+        handler = new HtmlParser.DefaultHandler()
+        parser  = new HtmlParser.Parser handler
+        parser.parseComplete body
+        results = (Select handler.dom, 'td#main_content table tbody tr td table')
+        console.log(results[0])
