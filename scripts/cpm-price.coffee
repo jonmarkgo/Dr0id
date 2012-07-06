@@ -23,12 +23,11 @@ module.exports = (robot) ->
     console.log search_url
     msg.http(search_url)
       .get() (err, res, body) ->
-        console.log body
-        console.log err
-        response = JSON.parse body
-        if err
+        if err or !IsJsonString(body)
           msg.send "ERROR"
-        else if response.length > 1
+        else
+          response = JSON.parse body
+        if response.length > 1
           options = "";
           response.forEach (el) ->
             options = options + el["name"] + ", "
