@@ -16,6 +16,8 @@
 Bitly = require('bitly')
 
 module.exports = (robot) ->
+  cpm_url = ""
+  rules_url = ""
   bitly = new Bitly process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY
   robot.respond /(price) (.*)/i, (msg) ->
     keywords = msg.match[2]
@@ -48,7 +50,6 @@ module.exports = (robot) ->
           rules_url = "http://www.swcombine.com/rules/?#{response[0]["className"]}&ID=#{response[0]["id"]}"
           bitly.shorten cpm_url, (err, bresponse) ->
             if !err
-              console.log bresponse.data.url
               cpm_url = bresponse.data.url
           bitly.shorten rules_url, (err, bresponse) ->
             if !err
