@@ -14,9 +14,11 @@
 #   jonmarkgo
 
 module.exports = (robot) ->
-  robot.respond /(price )(.*)/i, (msg) ->
+  robot.respond /(price) (.*)/i, (msg) ->
    keywords = msg.match[2]
-   msg.http("http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json")
+   url = "http://db.centrepointstation.com/searchbot.php?keywords=#{escape(keywords)}&format=json"
+   console.log url
+   msg.http(url)
     .get() (err, res, body) ->
       response = JSON.parse body
       if response[0]
