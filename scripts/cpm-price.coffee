@@ -21,7 +21,7 @@ module.exports = (robot) ->
       response = JSON.parse body
       if response.length > 1
       	options = "";
-      	response.each (el) ->
+      	response.forEach (el) ->
           options = options + el["name"] + ", "
       	msg.send "Did You Mean: " + options
       else if response[0]
