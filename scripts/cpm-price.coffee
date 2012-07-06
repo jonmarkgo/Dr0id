@@ -14,10 +14,10 @@
 #   jonmarkgo
 
 Bitly = require('bitly')
+cpm_url = ""
+rules_url = ""
 
 module.exports = (robot) ->
-  cpm_url = ""
-  rules_url = ""
   bitly = new Bitly process.env.HUBOT_BITLY_USERNAME, process.env.HUBOT_BITLY_API_KEY
   robot.respond /(price) (.*)/i, (msg) ->
     keywords = msg.match[2]
