@@ -32,7 +32,7 @@ module.exports = (robot) ->
           catch e
             msg.send "ERROR 2"
             return
-        if response.length > 1
+        if response.length > 1 and response[0]["name"] != 'Shipyard I' and response[0]["name"] != 'Shipyard II'
           options = "";
           response.forEach (el) ->
             options = options + el["name"] + ", "
