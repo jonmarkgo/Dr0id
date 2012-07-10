@@ -32,7 +32,7 @@ module.exports = (robot) ->
           catch e
             msg.send "ERROR 2"
             return
-        if response.length > 1 and response[0]["name"] != 'Shipyard I' and response[0]["name"] != 'Shipyard II' and response[0]["name"] != 'Golan I' and response[0]["name"] != 'Recycling I' and response[0]["name"] != 'Recycling II' and response[0]["name"] != 'Space Colony I' and response[0]["name"] != 'Trading I'
+        if response.length > 1 and response[0]["name"] != 'Shipyard I' and response[0]["name"] != 'Shipyard II' and response[0]["name"] != 'Golan I' and response[0]["name"] != 'Recycling I' and response[0]["name"] != 'Recycling II' and response[0]["name"] != 'Space Colony I' and response[0]["name"] != 'Trading I' and response[0]["name"] != 'R&D I' and response[0]["name"] != 'R&D II'
           options = "";
           response.forEach (el) ->
             options = options + el["name"] + ", "
