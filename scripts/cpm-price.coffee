@@ -52,7 +52,7 @@ module.exports = (robot) ->
             bitly.shorten rules_url, (err2, bresponse2) ->
               if !err2
                 rules_url = bresponse2.data.url
-              msg.send "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
+              msg.reply "#{response[0]["name"]} | Avg: #{avg} | Last: #{last} | Listings: #{cpm_url} | Stats: #{rules_url}"
           
         else
           msg.send "No such entity found!"
